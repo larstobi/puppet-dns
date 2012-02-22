@@ -21,4 +21,30 @@ class Puppet::Provider::Fog < Puppet::Provider
         end
         return nil
     end
+
+    def create_record
+        @zone.records.create(
+            :name  => @resource[:name],
+            :value => @resource[:value],
+            :type  => @resource[:type],
+            :ttl   => @resource[:ttl]
+        )
+    end
+
+    # Will return the first match
+    def find_record
+        if @zone.nil?
+            @zone = zone_by_name @resource[:zone]
+            if @zone.nil? then
+                self.fail "No such zone: #{@resource[:zone]}"
+            end
+        end
+        @records = @zone.records
+        @records.each do |record|
+            if record.name == @resource[:name]
+                return record
+            end
+        end
+        return nil
+    end
 end
