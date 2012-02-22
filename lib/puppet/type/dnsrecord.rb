@@ -23,8 +23,16 @@ Puppet::Type.newtype(:dnsrecord) do
         end
     end
 
-    newparam(:value) do
+    newproperty(:value) do
         desc 'IP address or DNS alias target.'
+
+        munge do |value|
+            if value.is_a?(String)
+                Array(value)
+            else
+                value
+            end
+        end
     end
 
     newparam(:type) do
@@ -32,7 +40,7 @@ Puppet::Type.newtype(:dnsrecord) do
         defaultto 'A'
     end
 
-    newparam(:ttl) do
+    newproperty(:ttl) do
         desc 'Time To Live (TTL) for query in seconds. Default: 60 seconds'
         defaultto '60'
     end
