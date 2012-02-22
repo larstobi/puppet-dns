@@ -13,15 +13,11 @@ Puppet::Type.newtype(:dnszone) do
         end
     end
 
-    newparam(:force) do
-        desc "Destroy zone even if records exist. Destroys all records in zone."
-        defaultto false
 
-        validate do |value|
-            unless value.class == TrueClass or value.class == FalseClass
-                self.fail ":force metaparameter must be boolean."
-            end
-        end
+    newparam(:force, :boolean => true) do
+        desc "Destroy zone even if records exist. Destroys all records in zone."
+        newvalues(:true, :false)
+        defaultto :false
     end
 
     newparam(:id) do
