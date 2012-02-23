@@ -1,5 +1,5 @@
 name    'larstobi-dns'
-version '0.0.2'
+version '0.0.3'
 source 'http://github.com/larstobi/puppet-dns/'
 author 'larstobi'
 license 'MIT'
