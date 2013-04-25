@@ -68,4 +68,10 @@ Puppet::Type.newtype(:dnsrecord) do
     newparam(:secret) do
         desc 'API Secret Key for authenticating with DNS service.'
     end
+
+    autorequire(:dnszone) do
+        if self[:zone]
+            [self[:zone]]
+        end
+    end
 end
