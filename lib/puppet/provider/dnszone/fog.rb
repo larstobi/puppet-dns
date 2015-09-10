@@ -23,7 +23,7 @@ Puppet::Type.type(:dnszone).provide(:fog,
                     record.destroy
                 end
             else
-                self.fail "Must use :force metaparameter to destroy zone."
+                self.fail "Zone not empty. Use :force metaparameter to destroy."
             end
         end
         @zone.destroy
