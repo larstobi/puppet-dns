@@ -3,8 +3,13 @@ Puppet::Type.newtype(:dnsrecord) do
     ensurable
 
     newparam(:name) do
-        desc 'Absolute DNS record name.'
+        desc 'Absolute DNS record name or a unique title.'
         isnamevar
+    end
+
+    newparam(:record) do
+        desc 'Absolute DNS record name.'
+        defaultto { @resource[:name] }
 
         validate do |value|
             unless value.match /\.$/
@@ -19,6 +24,17 @@ Puppet::Type.newtype(:dnsrecord) do
         validate do |value|
             unless value.match /\.$/
                 self.fail "(#{value}) absolute DNS names must end with a period."
+            end
+        end
+    end
+
+    newparam(:zoneid) do
+        desc 'Zone ID, will take precidence over zone name'
+        defaultto 'absent'
+
+        validate do |value|
+            unless value.match /.$/
+                self.fail "(#{value}) zone id must be provided."
             end
         end
     end

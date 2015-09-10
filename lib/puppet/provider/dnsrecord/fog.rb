@@ -45,7 +45,9 @@ Puppet::Type.type(:dnsrecord).provide(:fog,
         # AWS Route 53 doesn't have a CRUD-like interface. In order to "update"
         # it, we'd need to delete a record with the old attributes, and create
         # a record with the new ones.
-        @record.destroy
-        create_record
+        unless @record.nil?
+          @record.destroy
+          create_record
+        end
     end
 end

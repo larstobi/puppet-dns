@@ -22,9 +22,19 @@ class Puppet::Provider::Fog < Puppet::Provider
         return nil
     end
 
+    def zone_by_id zoneid
+        connection if @connection.nil?
+        @connection.zones.all.each do |zone|
+            if zone.id == zoneid
+                return zone
+            end
+        end
+        return nil
+    end
+
     def create_record
         @zone.records.create(
-            :name  => @resource[:name],
+            :name  => @resource[:record],
             :value => @resource[:value],
             :type  => @resource[:type],
             :ttl   => @resource[:ttl]
@@ -34,14 +44,21 @@ class Puppet::Provider::Fog < Puppet::Provider
     # Will return the first match
     def find_record
         if @zone.nil?
-            @zone = zone_by_name @resource[:zone]
-            if @zone.nil? then
-                self.fail "No such zone: #{@resource[:zone]}"
+            if @resource[:zoneid] != 'absent' then
+              @zone = zone_by_id @resource[:zoneid]
+              if @zone.nil? then
+                  self.fail "No zone with id: #{@resource[:zoneid]}"
+              end
+            else
+              @zone = zone_by_name @resource[:zone]
+              if @zone.nil? then
+                  self.fail "No such zone: #{@resource[:zone]}"
+              end
             end
         end
         @records = @zone.records
         @records.each do |record|
-            if record.name == @resource[:name]
+            if record.name == @resource[:record]
                 return record
             end
         end
