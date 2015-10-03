@@ -1,6 +1,7 @@
 require 'puppet/provider/fog'
 Puppet::Type.type(:dnsrecord).provide(:fog,
                                     :parent => Puppet::Provider::Fog) do
+    confine feature: :fog
     desc "DNS Record"
 
     def exists?
