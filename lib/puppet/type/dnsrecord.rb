@@ -58,7 +58,11 @@ Puppet::Type.newtype(:dnsrecord) do
 
     newproperty(:ttl) do
         desc 'Time To Live (TTL) for query in seconds. Default: 60 seconds'
-        defaultto '60'
+        defaultto 60
+
+        munge do |value|
+            Integer(value)
+        end
     end
 
     newparam(:id) do
