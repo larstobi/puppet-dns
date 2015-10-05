@@ -1,5 +1,4 @@
 require 'puppet/provider'
-require 'fog'
 class Puppet::Provider::Fog < Puppet::Provider
     def connection
         # create a connection to the service
