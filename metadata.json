@@ -1,6 +1,6 @@
 {
   "name": "larstobi-dns",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "larstobi",
   "summary": "Puppet DNS type",
   "license": "MIT",
